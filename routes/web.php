@@ -24,7 +24,8 @@ Route::group(['middleware' => 'auth'], function()
 	Route::group(['prefix' => 'produtos'], function()
 	{
 		Route::get('cadastrar', 'ProductsController@add');
-		Route::post('{?id}', 'ProductsController@save');
+		Route::get('editar/{id}', 'ProductsController@edit');
+		Route::post('salvar/{id?}', 'ProductsController@save');
 		Route::get('', 'ProductsController@list');
 	});
 
