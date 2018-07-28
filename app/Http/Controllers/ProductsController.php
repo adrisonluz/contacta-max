@@ -52,10 +52,23 @@ class ProductsController extends Controller
             Input::file('image')->move('uploads/produtos', $product->image);
         }
 
+        if($request->has('add_products')){
+            $product->quantity = ($product->quantity + $request->get('add_products'));
+        }
+
+        if($request->has('remove_products')){
+            if($request->get('remove_products') > $product->quantity){
+                Session::flash('alert', ['type' => 'danger', 'msg' => 'Erro ao processar solicitação. Não é possível remover produtos do estoque além da quantidade existente no mesmo. Por favor, informe um número menor ou igual a quantidade de produtos existente no estoque. Estoque atual: ' . $product->quantity . '.']);
+                return redirect('produtos/editar/' . $product->id);
+            } else {
+                $product->quantity = ($product->quantity - $request->get('remove_products'));
+            }
+        }
+
         if($product->save()){
-            Session::flash('alert', ['type' => 'success', 'msg' => 'Produto salvo com sucesso!']);            
+            Session::flash('alert', ['type' => 'success', 'msg' => 'Estoque de produto salvo com sucesso!']);            
         } else {
-            Session::flash('alert', ['type' => 'danger', 'msg' => 'Erro ao salvar produto, por favor tente novamente mais tarde.']);
+            Session::flash('alert', ['type' => 'danger', 'msg' => 'Erro ao salvar estoque do produto, por favor tente novamente mais tarde.']);
         }
 
         return redirect('produtos');
@@ -66,11 +79,121 @@ class ProductsController extends Controller
         
     }
 
-    public function removeProducts(){
-        
+    public function removeProductsApi(Request $request){
+        $changeStock = $this->changeStockApi($request, 'remove');
+        return $changeStock;
     }
 
-    public function addProducts(){
+    public function addProductsApi(Request $request){
+        $changeStock = $this->changeStockApi($request, 'add');
+        return $changeStock;
+    }
 
+    public function changeStockApi($request, $action){
+        $validateProduct = $this->validateProduct($request);
+
+        if($validateProduct['code'] !== 200){
+            return [
+                'code' => $validateProduct['code'],
+                'mensagem'   => $validateProduct['msg'],
+            ];
+        }
+
+        $product = $validateProduct['product'];
+
+        $validateQuantity = $this->validateQuantity($request, $product, $action);
+        
+        if($validateQuantity['code'] !== 200){
+            return [
+                'code' => $validateQuantity['code'],
+                'mensagem'   => $validateQuantity['msg'],
+            ];
+        }
+
+        $quantity = $request->get('quantity');
+        $product->quantity = ($action == 'add' ? ($product->quantity + $quantity) : ($product->quantity - $quantity));
+
+        if($product->save()){
+            return [
+                'code' => 200,
+                'mensagem'   => 'Estoque atualizado com sucesso! Valor atual: ' . $product->quantity,
+            ];
+        } else {
+            return [
+                'code' => 500,
+                'mensagem'   => 'Erro ao atualizar estoque do produto, por favor tente mais tarde.',
+            ];
+        }
+    }
+
+    public function validateProduct($request){
+        $data = [];
+        if(!$request->has('id') && !$request->has('sku')) {
+            $data = [
+                'code' => 400,
+                'msg'   => 'Id e Sku inválidos ou inexistentes na requisição.',
+            ];
+        }
+
+        if($request->has('id')){
+            $product = Product::find($request->get('id'));
+        } elseif($request->has('sku')){
+            $product = Product::where('sku', $request->get('sku'))->first();
+        }
+
+        if(!$product) {
+            $data = [
+                'code' => 404,
+                'msg'   => 'Produto não encontrado com os dados de identificação informados.',
+            ];
+        } else {
+            $data = [
+                'code' => 200,
+                'msg'   => 'Produto validado.',
+                'product' => $product
+            ];
+        }
+
+        return $data;
+    }
+
+    public function validateQuantity($request, $product, $action){
+        if(!$request->has('quantity')){
+            $data = [
+                'code' => 400,
+                'msg'   => 'Parâmetro "quantity" não encontrado ou inválido'
+            ];
+        } elseif(!is_numeric($request->get('quantity'))){
+            $data = [
+                'code' => 400,
+                'msg'   => 'O valor de "quantity" precisa ser um valor numérico.'
+            ];
+        } elseif($action == 'remove' && $request->get('quantity') > $product->quantity){
+            $data = [
+                'code' => 400,
+                'msg'   => 'Não é possível remover produtos do estoque além da quantidade existente no mesmo. Por favor, informe um número menor ou igual a quantidade de produtos existente no estoque.'
+            ];
+        } else {
+            $data = [
+                'code' => 200,
+                'msg'   => 'Quantidade válida.'
+            ];
+        }
+
+        return $data;
+    }
+
+    public function checkProductBySku(Request $request){
+        $sku = $request->get('sku');
+        $product = Product::where('sku', $sku)->first();
+        return $product;
+    }
+
+    public function verifyStock(Request $request, $id){
+        $product = Product::find($id);
+        $quantity = $request->get('quantity');
+        
+        $return = (($product->quantity >= $quantity) ? 'success' : 'error');
+        return $return;
     }
 }
