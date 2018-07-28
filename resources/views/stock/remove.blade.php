@@ -33,7 +33,7 @@
                                             <td @if($product->quantity < 100) class="quantity-low" @endif>{{$product->quantity}} @if($product->quantity < 100) <small><i>Estoque baixo</i><small> @endif</td>
                                             <td class="text-center">
                                                 <div class="form-group">
-                                                    <input type="number" class="form-control" id="{{$product->id}}_quantity" placeholder="0000" name="{{$product->id}}_quantity" value="">
+                                                    <input type="number" class="form-control inputQuantity" id="{{$product->id}}_quantity" placeholder="0000" name="{{$product->id}}_quantity" data-productid="{{$product->id}}">
                                                 </div>
                                             </td>
                                         </tr>
