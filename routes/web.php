@@ -27,6 +27,8 @@ Route::group(['middleware' => 'auth'], function()
 		Route::get('verifica-estoque/{id}', 'ProductsController@verifyStock');
 		Route::get('cadastrar', 'ProductsController@add');
 		Route::get('editar/{id}', 'ProductsController@edit');
+		Route::get('excluir/{id}', 'ProductsController@delete');
+		Route::get('restaurar/{id}', 'ProductsController@restore');
 		Route::post('salvar/{id?}', 'ProductsController@save');
 		Route::get('', 'ProductsController@list');
 	});

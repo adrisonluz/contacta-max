@@ -74,9 +74,28 @@ class ProductsController extends Controller
         return redirect('produtos');
     }
 
-    public function delete()
-    {
+    public function delete($id){
+        $product = Product::find($id);
+
+        if($product->delete()){
+            Session::flash('alert', ['type' => 'success', 'msg' => 'Produto excluído com sucesso!']);            
+        } else {
+            Session::flash('alert', ['type' => 'danger', 'msg' => 'Erro ao processar solicitação, por favor tente novamente mais tarde.']);
+        }
         
+        return redirect('produtos');
+    }
+
+    public function restore($id){
+        $product = Product::onlyTrashed()->find($id);
+
+        if($product->restore()){
+            Session::flash('alert', ['type' => 'success', 'msg' => 'Produto restaurado com sucesso!']);            
+        } else {
+            Session::flash('alert', ['type' => 'danger', 'msg' => 'Erro ao processar solicitação, por favor tente novamente mais tarde.']);
+        }
+        
+        return redirect('produtos');
     }
 
     public function removeProductsApi(Request $request){
@@ -185,7 +204,7 @@ class ProductsController extends Controller
 
     public function checkProductBySku(Request $request){
         $sku = $request->get('sku');
-        $product = Product::where('sku', $sku)->first();
+        $product = Product::withTrashed()->where('sku', $sku)->first();
         return $product;
     }
 

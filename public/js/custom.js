@@ -12,7 +12,13 @@ $(document).ready(function(){
                 data: {sku: sku}
             }).done(function(result) {
                 if(result.id != productId && result.length !== 0){
-                    $('#sku').addClass('is-invalid').after('<div id="feedbackSku" class="invalid-feedback">Um produto foi encontado com este sku. Clique <a href="/produtos/editar/' + result.id + '" title="Editar ' + result.name + '">aqui</a> para editá-lo ou escolha outro sku para este produto.</div>');
+                    if(result.deleted_at !== null){
+                        var alertMsg = 'Um produto foi encontado com este sku mas encontra-se excluído. Deseja restaurá-lo? Clique <a href="/produtos/restaurar/' + result.id + '" title="Restaurar ' + result.name + '">aqui</a>.';
+                    } else {
+                        var alertMsg = 'Um produto foi encontado com este sku. Clique <a href="/produtos/editar/' + result.id + '" title="Editar ' + result.name + '">aqui</a> para editá-lo ou escolha outro sku para este produto.';
+                    }
+
+                    $('#sku').addClass('is-invalid').after('<div id="feedbackSku" class="invalid-feedback">' + alertMsg +'</div>');
                 } else {
                     $('#feedbackSku').slideUp().remove();
                     $('#sku').removeClass('is-invalid');
