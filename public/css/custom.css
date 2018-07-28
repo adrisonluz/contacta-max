@@ -4,3 +4,22 @@
 .product-img-form{
     margin-bottom: 10px;
 }
+#formProduct .input-group{
+    width: 100%;
+}
+#formProduct .input-group .input-group-addon{
+    cursor: auto;
+}
+.form-control.is-invalid{
+    border-color: #dc3545;
+    color: #dc3545;
+}
+.invalid-feedback {
+    width: 100%;
+    margin-top: .25rem;
+    font-size: 80%;
+    color: #dc3545;
+}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover{
+    color: #3097d1;
+}

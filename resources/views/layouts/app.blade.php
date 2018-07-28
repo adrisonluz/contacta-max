@@ -38,7 +38,10 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        &nbsp;
+                        @if (!Auth::guest())
+                            <li class="nav-item {{ ( Request::segment(1) == 'produtos' ? 'active' : '') }}"><a href="{{url('produtos')}}"><i class="fa fa-shopping-cart"></i> Produtos</a></li>
+                            <li class="nav-item {{ ( Request::segment(1) == 'estoque' ? 'active' : '') }}"><a href="{{url('estoque')}}"><i class="fa fa-clipboard-list"></i> Estoque</a></li>
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -93,5 +96,6 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/custom.js') }}"></script>
 </body>
 </html>
