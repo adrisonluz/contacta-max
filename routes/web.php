@@ -23,6 +23,8 @@ Route::group(['middleware' => 'auth'], function()
 {
 	Route::group(['prefix' => 'produtos'], function()
 	{
+		Route::get('buscar-por-sku', 'ProductsController@checkProductBySku');
+		Route::get('verifica-estoque/{id}', 'ProductsController@verifyStock');
 		Route::get('cadastrar', 'ProductsController@add');
 		Route::get('editar/{id}', 'ProductsController@edit');
 		Route::post('salvar/{id?}', 'ProductsController@save');
