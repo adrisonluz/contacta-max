@@ -11,3 +11,5 @@ npm-debug.log
 yarn-error.log
 .env
 /storage
+/public/uploads/produtos/*
+!/public/uploads/produtos/default.png
