@@ -27,7 +27,7 @@
 								</thead>
 								<tbody>
 									@foreach($products as $product)
-									<tr>
+									<tr @if($product->quantity < 100) class="table-quantity-low" @endif>
 										<td class="text-center">
 											<img alt="Imagem do Produto" title="Imagem do Produto" class="img-thumbnail mx-auto d-block product-img-form" src="{{ url('uploads/produtos/' . ((isset($product) && $product->image) != null ? $product->image : 'default.png')) }}">
 										</td>
@@ -35,7 +35,7 @@
 											<a href="{{ url('produtos/editar/' . $product->id) }}" title="Editar produto">{{$product->sku}}</a>
 										</td>
 										<td>{{$product->name}}</td>
-										<td>{{$product->quantity}}</td>
+										<td @if($product->quantity < 100) class="quantity-low" @endif>{{$product->quantity}} @if($product->quantity < 100) <small><i>Estoque baixo</i><small> @endif</td>
 										<td class="text-center">
 											<a href="{{ url('produtos/editar/' . $product->id) }}" class="btn btn-sm btn-success" title="Editar produto"><i class="fa fa-edit"></i></a>
 											<a href="{{ url('produtos/excluir/' . $product->id) }}" class="btn btn-sm btn-danger" title="Excluir produto"><i class="far fa-trash-alt"></i></a>

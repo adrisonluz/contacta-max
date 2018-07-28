@@ -33,6 +33,14 @@ Route::group(['middleware' => 'auth'], function()
 		Route::get('', 'ProductsController@list');
 	});
 
+	Route::group(['prefix' => 'estoque'], function()
+	{
+		Route::get('adicionar', 'StockController@add');
+		Route::post('adicionar', 'StockController@changeStockAdd');
+		Route::get('dar-baixa', 'StockController@remove');
+		Route::post('dar-baixa', 'StockController@changeStockRemove');
+	});
+
 	Route::post('baixar-produtos', 'ProductsController@removeProducts');
 	Route::post('baixar-produtos', 'ProductsController@addProducts');
 });

@@ -40,7 +40,14 @@
                     <ul class="nav navbar-nav">
                         @if (!Auth::guest())
                             <li class="nav-item {{ ( Request::segment(1) == 'produtos' ? 'active' : '') }}"><a href="{{url('produtos')}}"><i class="fa fa-shopping-cart"></i> Produtos</a></li>
-                            <li class="nav-item {{ ( Request::segment(1) == 'estoque' ? 'active' : '') }}"><a href="{{url('estoque')}}"><i class="fa fa-clipboard-list"></i> Estoque</a></li>
+                            <li class="nav-item dropdown {{ ( Request::segment(1) == 'estoque' ? 'active' : '') }}">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre><i class="fa fa-clipboard-list"></i> Estoque <span class="caret"></span></a>
+
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{url('estoque/adicionar')}}"><i class="fa fa-cart-plus"></i> Adicionar</a></li>
+                                    <li><a href="{{url('estoque/dar-baixa')}}"><i class="fa fa-cart-arrow-down"></i> Dar Baixa</a></li>
+                                </ul>
+                            </li>
                         @endif
                     </ul>
 
@@ -81,7 +88,7 @@
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
                     <div class="alert alert-{{Session::get('alert')['type']}} alert-dismissible" role="alert">
-                        {{Session::get('alert')['msg']}}
+                        {!! Session::get('alert')['msg'] !!}
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
