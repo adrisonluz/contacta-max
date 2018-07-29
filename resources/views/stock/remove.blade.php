@@ -20,7 +20,7 @@
                                             <th>SKU</th>
                                             <th>Nome</th>
                                             <th>Quantidade em estoque</th>
-                                            <th>Quantidade à adicionar</th>
+                                            <th>Quantidade à dar baixa</th>
                                         </tr>
                                     </thead>
                                     <tbody>
