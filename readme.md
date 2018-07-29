@@ -53,6 +53,9 @@ php artisan db:seed --class=DatabaseSeeder
 ```
 
 ### Quinto passo
+Na raiz do projeto, crie o diretório "storage" (caso ele não exista) e dentro dele crie os diretórios "views", "sessions" e "cache". É necessário dar permissão total nestes diretórios (777) para que a aplicação funcione corretamente. Também é necessessário dar permissão todal no diretório "bootstrap/cache".
+
+### Sexto passo
 Se tudo estiver correto, você já pode acessar o sistema utilizando o usuário "Teste". Abaixo você tem o email e senha gerado pelo Seed do quarto passo.
 
 user@teste.com  
