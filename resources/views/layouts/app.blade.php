@@ -45,9 +45,10 @@
 
                                 <ul class="dropdown-menu">
                                     <li><a href="{{url('estoque/adicionar')}}"><i class="fa fa-cart-plus"></i> Adicionar</a></li>
-                                    <li><a href="{{url('estoque/dar-baixa')}}"><i class="fa fa-cart-arrow-down"></i> Dar Baixa</a></li>
+                                    <li><a href="{{url('estoque/dar-baixa')}}"><i class="fa fa-cart-arrow-down"></i> Dar Baixa</a></li>                                    
                                 </ul>
                             </li>
+                            <li class="nav-item {{ ( Request::segment(1) == 'relatorios' ? 'active' : '') }}"><a href="{{url('relatorios')}}"><i class="fa fa-book-open"></i> Relatórios</a></li>
                         @endif
                     </ul>
 
@@ -103,6 +104,8 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="https://uxsolutions.github.io/bootstrap-datepicker/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://uxsolutions.github.io/bootstrap-datepicker/bootstrap-datepicker/js/locales/bootstrap-datepicker.pt-BR.min.js"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
 </body>
 </html>

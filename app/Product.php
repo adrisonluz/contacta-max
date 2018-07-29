@@ -17,5 +17,9 @@ class Product extends Model
 		'image'
 	];
 
-    protected $dates = ['deleted_at'];
+	protected $dates = ['deleted_at'];
+	
+	public function logs(){
+		return $this->hasMany('App\Log');
+	}
 }

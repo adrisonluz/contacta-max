@@ -41,6 +41,8 @@ Route::group(['middleware' => 'auth'], function()
 		Route::post('dar-baixa', 'StockController@changeStockRemove');
 	});
 
-	Route::post('baixar-produtos', 'ProductsController@removeProducts');
-	Route::post('baixar-produtos', 'ProductsController@addProducts');
+	Route::group(['prefix' => 'relatorios'], function()
+	{
+		Route::get('', 'LogsController@list');
+	});
 });
