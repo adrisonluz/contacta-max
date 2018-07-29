@@ -144,7 +144,7 @@ class ProductsController extends Controller
             $log = new Log;
             $log->system = 'api';
             $log->product_id = $product->id;
-            $log->action = $type;
+            $log->action = $action;
             $log->quantity = $quantity;
             $log->save();
 
