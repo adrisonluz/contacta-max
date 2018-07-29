@@ -1,6 +1,6 @@
 # Contacta Max | Teste
 
-Este sistema foi criado em PHP utilizando o [Laravel Framework](http://laravel.com).
+Este sistema foi criado em PHP 7.0 e Maria DB 10.1,  utilizando o [Laravel Framework](http://laravel.com).
 
 -- --
 
