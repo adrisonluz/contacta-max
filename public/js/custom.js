@@ -53,17 +53,17 @@ $(document).ready(function(){
             var quantity = $(this).val();
 
             $('#submit').attr('disabled','disabled');
-            input.parents('tr').find('td.quantity-low .feedbackQuantity').slideUp().remove();
+            input.parents('tr').find('td.quantity .feedbackQuantity').slideUp().remove();
 
             $.ajax({
                 url: "/produtos/verifica-estoque/" + input.data('productid'),
                 data: {quantity: quantity}
             }).done(function(result) {
                 if(result == 'error'){
-                    input.parents('tr').find('td.quantity-low').append('<div class="invalid-feedback feedbackQuantity" ">A quantidade de produtos a ser dado baixa deve ser menor ou igual a quantidade de produtos existente no estoque.</div>');
+                    input.parents('tr').find('td.quantity').append('<div class="invalid-feedback feedbackQuantity" ">A quantidade de produtos a ser dado baixa deve ser menor ou igual a quantidade de produtos existente no estoque.</div>');
                 } else {
-                    input.parents('tr').find('td.quantity-low .feedbackQuantity').slideUp().remove();
-                    input.parents('tr').find('td.quantity-low').removeClass('is-invalid');
+                    input.parents('tr').find('td.quantity .feedbackQuantity').slideUp().remove();
+                    input.parents('tr').find('td.quantity').removeClass('is-invalid');
                     $('#submit').removeAttr('disabled');
                 }
             });

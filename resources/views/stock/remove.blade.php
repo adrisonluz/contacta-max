@@ -30,7 +30,7 @@
                                                 <a href="{{ url('produtos/editar/' . $product->id) }}" title="Editar produto">{{$product->sku}}</a>
                                             </td>
                                             <td>{{$product->name}}</td>
-                                            <td @if($product->quantity < 100) class="quantity-low" @endif>{{$product->quantity}} @if($product->quantity < 100) <small><i>Estoque baixo</i><small> @endif</td>
+                                            <td class="quantity @if($product->quantity < 100) quantity-low @endif">{{$product->quantity}} @if($product->quantity < 100) <small><i>Estoque baixo</i><small> @endif</td>
                                             <td class="text-center">
                                                 <div class="form-group">
                                                     <input type="number" class="form-control inputQuantity" id="{{$product->id}}_quantity" placeholder="0000" name="{{$product->id}}_quantity" data-productid="{{$product->id}}">
@@ -57,7 +57,7 @@
                     <div class="panel-footer">
                         <div class="row">
                             <div class="col-xs-12 text-right">
-                                <button type="submit" class="btn btn-tertiary" title="Alterar estoque" alt="Alterar estoque">
+                                <button type="submit" class="btn btn-tertiary" title="Alterar estoque" alt="Alterar estoque" id="submit">
                                 Alterar estoque
                                 </a>
                             </div>
