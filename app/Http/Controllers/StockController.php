@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Product;
 use View;
 use Session;
+use App\Log;
 
 class StockController extends Controller
 {
@@ -57,6 +58,13 @@ class StockController extends Controller
                             $msg .= 'Erro ao atualizar o produto <strong>' . $product->name . '</strong>. Tende novamente.' . "\n";
                             $iErrors++; 
                         } else {
+                            $log = new Log;
+                            $log->system = 'web';
+                            $log->product_id = $product->id;
+                            $log->action = $type;
+                            $log->quantity = $val;
+                            $log->save();
+
                             $iSuccess++;
                         }
                     }

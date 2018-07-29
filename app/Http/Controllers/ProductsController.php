@@ -7,6 +7,7 @@ use App\Product;
 use View;
 use Session;
 use Illuminate\Support\Facades\Input;
+use App\Log;
 
 class ProductsController extends Controller
 {
@@ -66,6 +67,13 @@ class ProductsController extends Controller
         }
 
         if($product->save()){
+            $log = new Log;
+            $log->system = 'web';
+            $log->product_id = $product->id;
+            $log->action = ($request->has('add_products') ? 'add' : 'remove');
+            $log->quantity = ($request->has('quantity') ? $request->get('quantity') : $product->quantity);
+            $log->save();
+
             Session::flash('alert', ['type' => 'success', 'msg' => 'Estoque de produto salvo com sucesso!']);            
         } else {
             Session::flash('alert', ['type' => 'danger', 'msg' => 'Erro ao salvar estoque do produto, por favor tente novamente mais tarde.']);
@@ -133,6 +141,13 @@ class ProductsController extends Controller
         $product->quantity = ($action == 'add' ? ($product->quantity + $quantity) : ($product->quantity - $quantity));
 
         if($product->save()){
+            $log = new Log;
+            $log->system = 'api';
+            $log->product_id = $product->id;
+            $log->action = $type;
+            $log->quantity = $quantity;
+            $log->save();
+
             return [
                 'code' => 200,
                 'mensagem'   => 'Estoque atualizado com sucesso! Valor atual: ' . $product->quantity,
