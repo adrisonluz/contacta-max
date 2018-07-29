@@ -3,10 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
-    protected $fillable = [
+	use SoftDeletes;
+
+	protected $fillable = [
     	'sku', 
     	'name',
 		'description',
@@ -14,5 +17,9 @@ class Product extends Model
 		'image'
 	];
 
-    protected $dates = ['deleted_at'];
+	protected $dates = ['deleted_at'];
+	
+	public function logs(){
+		return $this->hasMany('App\Log');
+	}
 }

@@ -1,6 +1,6 @@
 # Contacta Max | Teste
 
-Este sistema foi criado em PHP utilizando o [Laravel Framework](http://laravel.com).
+Este sistema foi criado em PHP 7.0 e Maria DB 10.1,  utilizando o [Laravel Framework](http://laravel.com).
 
 -- --
 
@@ -55,7 +55,7 @@ php artisan db:seed --class=DatabaseSeeder
 ### Quinto passo
 Se tudo estiver correto, você já pode acessar o sistema utilizando o usuário "Teste". Abaixo você tem o email e senha gerado pelo Seed do quarto passo.
 
-teste@teste.com  
+user@teste.com  
 teste1234
 
 Obs: Caso seu localhost ou servidor não rode o sistema corretamente, você pode tentar acessá-lo pelo servidor imbutido, executando o comando abaixo e acessando o sistema pelo link http://localhost:8000.
@@ -63,6 +63,13 @@ Obs: Caso seu localhost ou servidor não rode o sistema corretamente, você pode
 ```
 php artisan serve
 ```
+
+## Utilização da API
+A primeira autenticação deve ser feita via login na api, utilizando os parametros "email" e "password", sendo os mesmos enviados no body via POST.
+
+Após logado, o sistema retorna um token para que o usuário possa acessar as demais rotas. O sistema utiliza o JWT para autenticação via token, sendo necessário passar o header "Authorization" com o valor "Bearer {access_token}". 
+
+Para se adicionar ou remover produtos do estoque, deve-se enviar o id ou sku do produto para a identificação e o parâmetro "quantity" com o valor da quantidade a ser alterada.
 
 
 ## Contato

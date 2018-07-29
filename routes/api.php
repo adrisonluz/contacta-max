@@ -18,3 +18,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('auth/login', 'ApiAuthController@authenticate');
+
+Route::group(['middleware' => 'jwt.auth'], function()
+{
+    Route::post('baixar-produtos', 'ProductsController@removeProductsApi');
+    Route::post('adicionar-produtos', 'ProductsController@addProductsApi');
+});

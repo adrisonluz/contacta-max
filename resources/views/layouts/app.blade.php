@@ -12,6 +12,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -36,7 +38,18 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        &nbsp;
+                        @if (!Auth::guest())
+                            <li class="nav-item {{ ( Request::segment(1) == 'produtos' ? 'active' : '') }}"><a href="{{url('produtos')}}"><i class="fa fa-shopping-cart"></i> Produtos</a></li>
+                            <li class="nav-item dropdown {{ ( Request::segment(1) == 'estoque' ? 'active' : '') }}">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre><i class="fa fa-clipboard-list"></i> Estoque <span class="caret"></span></a>
+
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{url('estoque/adicionar')}}"><i class="fa fa-cart-plus"></i> Adicionar</a></li>
+                                    <li><a href="{{url('estoque/dar-baixa')}}"><i class="fa fa-cart-arrow-down"></i> Dar Baixa</a></li>                                    
+                                </ul>
+                            </li>
+                            <li class="nav-item {{ ( Request::segment(1) == 'relatorios' ? 'active' : '') }}"><a href="{{url('relatorios')}}"><i class="fa fa-book-open"></i> Relatórios</a></li>
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -71,10 +84,28 @@
             </div>
         </nav>
 
+        @if(Session::has('alert'))
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="alert alert-{{Session::get('alert')['type']}} alert-dismissible" role="alert">
+                        {!! Session::get('alert')['msg'] !!}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
+
         @yield('content')
     </div>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="https://uxsolutions.github.io/bootstrap-datepicker/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://uxsolutions.github.io/bootstrap-datepicker/bootstrap-datepicker/js/locales/bootstrap-datepicker.pt-BR.min.js"></script>
+    <script src="{{ asset('js/custom.js') }}"></script>
 </body>
 </html>
